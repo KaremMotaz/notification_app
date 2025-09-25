@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notification_app/views/notification_view.dart';
+import 'package:notification_app/views/push_notification_view.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -8,7 +8,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: NotificationView(),
+      home: PushNotificationView(),
     );
   }
 }
