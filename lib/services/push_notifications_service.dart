@@ -18,7 +18,7 @@ class PushNotificationsService {
 
   static void firebaseForegroundHandler() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      LocalNotificationService.showBasicNotification(message: message);
+      LocalNotificationService.showBasicNotificationForPush(message: message);
     });
   }
 
