@@ -1,10 +1,42 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:notification_app/models/local_notifications_model.dart';
 import 'package:notification_app/models/scheduled_local_notifications_model.dart';
 import 'package:notification_app/services/local_notification_service.dart';
+import 'package:notification_app/views/notification_details_view.dart';
 
-class NotificationView extends StatelessWidget {
+class NotificationView extends StatefulWidget {
   const NotificationView({super.key});
+
+  @override
+  State<NotificationView> createState() => _NotificationViewState();
+}
+
+class _NotificationViewState extends State<NotificationView> {
+  @override
+  void initState() {
+    listenToNotificationStream();
+    super.initState();
+  }
+
+  void listenToNotificationStream() {
+    LocalNotificationService.streamController.stream.listen((
+      notificationResponse,
+    ) {
+      log(notificationResponse.id!.toString());
+      log(notificationResponse.payload!.toString());
+      //logic to get product from database.
+      if (mounted != true) return;
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) =>
+              NotificationDetailsView(response: notificationResponse),
+        ),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +110,12 @@ class NotificationView extends StatelessWidget {
                       ),
                 );
               },
+            ),
+            ElevatedButton(
+              onPressed: () {
+                LocalNotificationService.cancelAllNotifications();
+              },
+              child: Text("Cancel All Notifications"),
             ),
           ],
         ),

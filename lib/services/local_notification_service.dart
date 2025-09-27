@@ -1,8 +1,11 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:notification_app/models/local_notifications_model.dart';
 import 'package:notification_app/models/scheduled_local_notifications_model.dart';
+import 'package:flutter_timezone/flutter_timezone.dart';
+import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 class LocalNotificationService {
@@ -37,7 +40,7 @@ class LocalNotificationService {
       'basic notification',
       importance: Importance.max,
       priority: Priority.high,
-      playSound: false,
+      sound: RawResourceAndroidNotificationSound('sound.wav'.split('.').first),
     );
     NotificationDetails details = NotificationDetails(android: android);
     await flutterLocalNotificationsPlugin.show(
@@ -57,7 +60,7 @@ class LocalNotificationService {
       'basic notification',
       importance: Importance.max,
       priority: Priority.high,
-      playSound: false,
+      sound: RawResourceAndroidNotificationSound('sound.wav'.split('.').first),
     );
     NotificationDetails details = NotificationDetails(android: android);
     await flutterLocalNotificationsPlugin.show(
@@ -77,7 +80,6 @@ class LocalNotificationService {
       'repeating notification',
       importance: Importance.max,
       priority: Priority.high,
-      playSound: true,
     );
     NotificationDetails details = NotificationDetails(android: android);
     await flutterLocalNotificationsPlugin.periodicallyShow(
@@ -101,14 +103,23 @@ class LocalNotificationService {
       priority: Priority.high,
       playSound: true,
     );
+
     NotificationDetails details = NotificationDetails(android: android);
+    tz.initializeTimeZones();
+
+    final TimezoneInfo currentTimeZone =
+        await FlutterTimezone.getLocalTimezone();
+
+    tz.setLocalLocation(tz.getLocation(currentTimeZone.identifier));
+
     await flutterLocalNotificationsPlugin.zonedSchedule(
       scheduledLocalNotificationsModel!.id,
       scheduledLocalNotificationsModel.title,
       scheduledLocalNotificationsModel.body,
-      tz.TZDateTime.now(
-        tz.local,
-      ).add(scheduledLocalNotificationsModel.scheduledDuration),
+      // tz.TZDateTime.now(
+      //   tz.local,
+      // ).add(scheduledLocalNotificationsModel.scheduledDuration),
+      tz.TZDateTime(tz.local, 2025, 9, 27, 12, 12),
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       details,
       payload: "Payload Data",
@@ -121,5 +132,58 @@ class LocalNotificationService {
 
   static void cancelAllNotifications() async {
     await flutterLocalNotificationsPlugin.cancelAll();
+  }
+
+  static Future<void> showDailySchduledNotification() async {
+    const AndroidNotificationDetails android = AndroidNotificationDetails(
+      'id 7',
+      'daily schduled notification',
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+    NotificationDetails details = const NotificationDetails(android: android);
+    tz.initializeTimeZones();
+    tz.setLocalLocation(tz.getLocation('Africa/Cairo'));
+    var currentTime = tz.TZDateTime.now(tz.local);
+    log("currentTime.year:${currentTime.year}");
+    log("currentTime.month:${currentTime.month}");
+    log("currentTime.day:${currentTime.day}");
+    log("currentTime.hour:${currentTime.hour}");
+    log("currentTime.minute:${currentTime.minute}");
+    log("currentTime.second:${currentTime.second}");
+    var scheduleTime = tz.TZDateTime(
+      tz.local,
+      currentTime.year,
+      currentTime.month,
+      currentTime.day,
+      currentTime.hour,
+      38,
+    );
+    log("scheduledTime.year:${scheduleTime.year}");
+    log("scheduledTime.month:${scheduleTime.month}");
+    log("scheduledTime.day:${scheduleTime.day}");
+    log("scheduledTime.hour:${scheduleTime.hour}");
+    log("scheduledTime.minute:${scheduleTime.minute}");
+    log("scheduledTime.second:${scheduleTime.second}");
+    if (scheduleTime.isBefore(currentTime)) {
+      scheduleTime = scheduleTime.add(const Duration(days: 1));
+      log("AfterAddedscheduledTime.year:${scheduleTime.year}");
+      log("AfterAddedscheduledTime.month:${scheduleTime.month}");
+      log("AfterAddedscheduledTime.day:${scheduleTime.day}");
+      log("AfterAddedscheduledTime.hour:${scheduleTime.hour}");
+      log("AfterAddedscheduledTime.minute:${scheduleTime.minute}");
+      log("AfterAddedscheduledTime.second:${scheduleTime.second}");
+      log('Added Duration to scheduled time');
+    }
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+      9,
+      'Daily Schduled Notification',
+      'body',
+      // tz.TZDateTime.now(tz.local).add(const Duration(seconds: 10)),
+      scheduleTime,
+      details,
+      payload: 'zonedSchedule5555555',
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+    );
   }
 }
