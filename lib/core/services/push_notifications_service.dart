@@ -8,15 +8,18 @@ import 'local_notification_service.dart';
 
 class PushNotificationsService {
   static FirebaseMessaging messaging = FirebaseMessaging.instance;
+
   static Future init() async {
     await messaging.requestPermission();
-    String? token = await messaging.getToken();
-    log('$token');
+    log(messaging.getToken().toString());
     FirebaseMessaging.onBackgroundMessage(firebaseBackgroundHandler);
     firebaseForegroundHandler();
   }
 
-  
+  static Future<String> getToken() async {
+    String? token = await messaging.getToken();
+    return token ?? '';
+  }
 
   static void firebaseForegroundHandler() {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {

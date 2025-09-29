@@ -1,10 +1,11 @@
 import 'package:dartz/dartz.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:notification_app/core/services/push_notifications_service.dart';
 import 'package:notification_app/features/push_notification/data/models/push_notification_request_body.dart';
 import 'package:notification_app/features/push_notification/data/repos/api_notification_repo.dart';
 import 'package:notification_app/core/errors/auth_failure.dart';
 import 'package:notification_app/core/errors/failure.dart';
 import 'package:notification_app/core/errors/server_failure.dart';
-import 'package:notification_app/core/helpers/backend_endpoint.dart';
 import 'package:notification_app/core/services/api_notification_service.dart';
 
 class ApiNotificationRepoImp extends ApiNotificationRepo {
@@ -17,13 +18,11 @@ class ApiNotificationRepoImp extends ApiNotificationRepo {
     required NotificationData notificationData,
   }) async {
     try {
+      final String deviceToken = await PushNotificationsService.getToken();
       await apiNotificationService.pushNotification(
-        authorization: "Bearer ${BackendEndpoint.accessToken}",
+        authorization: "Bearer ${dotenv.env['ACCESS_TOKEN']}",
         body: PushNotificationRequestBody(
-          message: Message(
-            token: BackendEndpoint.deviceToken,
-            notification: notificationData,
-          ),
+          message: Message(token: deviceToken, notification: notificationData),
         ),
       );
       return right(unit);
