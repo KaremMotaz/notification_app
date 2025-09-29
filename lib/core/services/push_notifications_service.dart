@@ -11,12 +11,11 @@ class PushNotificationsService {
 
   static Future init() async {
     await messaging.requestPermission();
-    log(messaging.getToken().toString());
     FirebaseMessaging.onBackgroundMessage(firebaseBackgroundHandler);
     firebaseForegroundHandler();
   }
 
-  static Future<String> getToken() async {
+  static Future<String> getDeviceToken() async {
     String? token = await messaging.getToken();
     return token ?? '';
   }
