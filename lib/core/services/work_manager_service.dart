@@ -1,4 +1,4 @@
-import 'package:notification_app/services/local_notification_service.dart';
+import 'package:notification_app/core/services/local_notification_service.dart';
 import 'package:workmanager/workmanager.dart';
 // steps
 //1.init work manager
@@ -17,7 +17,7 @@ class WorkManagerService {
 
   //init work manager service
   Future<void> init() async {
-    await Workmanager().initialize(actionTask, isInDebugMode: true);
+    await Workmanager().initialize(actionTask);
     registerMyTask();
   }
 

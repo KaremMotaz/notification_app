@@ -1,0 +1,42 @@
+class AssetsManager {
+  static const String emailNotification =
+      'assets/images/email_notification.png';
+  static const String forgotPassword = 'assets/images/Forgot_password.png';
+  static const String arrowDownIcon = 'assets/svgs/arrow_down.svg';
+  static const String arrowRightIcon = 'assets/svgs/arrow_right.svg';
+  static const String locationIcon = 'assets/svgs/location.svg';
+  static const String micIcon = 'assets/svgs/mic.svg';
+  static const String notificationIcon = 'assets/svgs/notification.svg';
+  static const String searchIcon = 'assets/svgs/search.svg';
+  static const String weekOfferImage = 'assets/images/vegetables_fruits.png';
+  static const String maskOfferImage = 'assets/images/mask_group.png';
+  static const String groceriesIcon = 'assets/svgs/groceries.svg';
+  static const String appliancesIcon = 'assets/svgs/appliances.svg';
+  static const String fashionIcon = 'assets/svgs/fashion.svg';
+  static const String furnitureIcon = 'assets/svgs/furniture.svg';
+  static const String item1 = 'assets/images/item1.png';
+  static const String item2 = 'assets/images/item2.png';
+  static const String item3 = 'assets/images/item3.png';
+  static const String strawberryImage = 'assets/images/strawberry.png';
+  static const String chipsImage = 'assets/images/chips.png';
+  static const String chairImage = 'assets/images/chair.png';
+  static const String washingMachineImage = 'assets/images/washing_machine.png';
+  static const String heartOutlineIcon = 'assets/svgs/heart_outline.svg';
+  static const String heartFullIcon = 'assets/svgs/heart_full.svg';
+  static const String starIcon = 'assets/svgs/star.svg';
+  static const String homeIcon = 'assets/svgs/home.svg';
+  static const String allProductsIcon = 'assets/svgs/all_products.svg';
+  static const String favouriteIcon = 'assets/svgs/favourite.svg';
+  static const String profileIcon = 'assets/svgs/profile.svg';
+  static const String cartIcon = 'assets/svgs/cart.svg';
+  static const String brand1Image = 'assets/images/brand1.png';
+  static const String brand2Image = 'assets/images/brand2.png';
+  static const String brand3Image = 'assets/images/brand3.png';
+  static const String brand4Image = 'assets/images/brand4.png';
+  static const String brandDeal1Image = 'assets/images/brand_deal1.png';
+  static const String brandDeal2Image = 'assets/images/brand_deal2.png';
+  static const String brandDeal3Image = 'assets/images/brand_deal3.png';
+  static const String brandDeal4Image = 'assets/images/brand_deal4.png';
+  static const String brandDeal5Image = 'assets/images/brand_deal5.png';
+  static const String brandDeal6Image = 'assets/images/brand_deal6.png';
+}
