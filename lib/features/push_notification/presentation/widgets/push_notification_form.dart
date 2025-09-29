@@ -52,6 +52,8 @@ class _PushNotificationFormState extends State<PushNotificationForm> {
             },
           ),
           const SizedBox(height: 25),
+          
+          const SizedBox(height: 25),
           BlocButton<PushNotificationCubit, PushNotificationState>(
             label: "Send Notification",
             isLoading: (state) => state is PushNotificationLoadingState,
